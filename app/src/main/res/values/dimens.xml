@@ -11,6 +11,8 @@
     <dimen name="ico_size">24dp</dimen>
     <dimen name="ico_size_48">48dp</dimen>
 
+    <dimen name="settings_padding_horizontal">16dp</dimen>
+    <dimen name="settings_padding_vertical">20dp</dimen>
     <dimen name="start_offset_16">16dp</dimen>
     <dimen name="end_offset_12">12dp</dimen>
     <dimen name="settings_text_size">16sp</dimen>

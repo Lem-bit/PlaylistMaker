@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="button_corner_radius">16dp</dimen>
+    <dimen name="button_text_size">22sp</dimen>
+    <dimen name="button_margin_offset">16dp</dimen>
+    <dimen name="button_top_offset">68dp</dimen>
+    <dimen name="button_bottom_offset">28dp</dimen>
+    <dimen name="caption_text_size">22sp</dimen>
+
+    <dimen name="ico_padding">10dp</dimen>
+    <dimen name="ico_size">24dp</dimen>
+    <dimen name="ico_size_48">48dp</dimen>
+
+    <dimen name="start_offset_16">16dp</dimen>
+    <dimen name="end_offset_12">12dp</dimen>
+    <dimen name="settings_text_size">16sp</dimen>
+    <dimen name="settings_cell_height">61dp</dimen>
+    <dimen name="settings_caption_text_size">22sp</dimen>
+</resources>

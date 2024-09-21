@@ -9,6 +9,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import kotlin.reflect.KClass
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,18 +23,14 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        findViewById<Button>(R.id.btn_search).setOnClickListener {
-            startActivity(Intent(this, SearchActivity::class.java))
-        }
+        bindActivity(R.id.btn_search, SearchActivity::class)
+        bindActivity(R.id.btn_media, MediaActivity::class)
+        bindActivity(R.id.btn_settings, SettingsActivity::class)
 
-        findViewById<Button>(R.id.btn_media).setOnClickListener {
-            startActivity(Intent(this, MediaActivity::class.java))
-        }
+    }
 
-        findViewById<Button>(R.id.btn_settings).setOnClickListener {
-            startActivity(Intent(this, SettingsActivity::class.java))
-        }
-
+    fun bindActivity(id: Int, cls: KClass<out AppCompatActivity>) {
+        findViewById<Button>(id).setOnClickListener{ startActivity(Intent(this, cls.java)) }
     }
 
 }

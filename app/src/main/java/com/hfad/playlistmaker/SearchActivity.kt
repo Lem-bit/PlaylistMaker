@@ -6,6 +6,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -14,16 +15,17 @@ import com.hfad.playlistmaker.databinding.ActivitySearchBinding
 
 class SearchActivity: AppCompatActivity() {
 
-    companion object {
-        const val DEFAULT_SEARCH_DATA = ""
+    private companion object {
         const val KEY_SEARCH_DATA = "KEY_SEARCH_DATA"
     }
 
-    var searchData: String = DEFAULT_SEARCH_DATA
+    private var searchData: String = ""
+
+    private lateinit var binding: ActivitySearchBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivitySearchBinding.inflate(LayoutInflater.from(this))
+        binding = ActivitySearchBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
         enableEdgeToEdge()
 
@@ -37,7 +39,11 @@ class SearchActivity: AppCompatActivity() {
         binding.searchCancelButton.visibility = View.GONE
 
         binding.topAppBar.setNavigationOnClickListener{ finish() }
-        binding.searchCancelButton.setOnClickListener{ binding.inputSearch.setText("") }
+        binding.searchCancelButton.setOnClickListener{
+            binding.inputSearch.setText("")
+            val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager
+            inputMethodManager?.hideSoftInputFromWindow(binding.searchCancelButton.windowToken, 0)
+        }
 
         val textWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -64,6 +70,6 @@ class SearchActivity: AppCompatActivity() {
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        searchData = savedInstanceState.getString(KEY_SEARCH_DATA, DEFAULT_SEARCH_DATA)
+        searchData = savedInstanceState.getString(KEY_SEARCH_DATA, "")
     }
 }

@@ -24,4 +24,9 @@
         <item name="backgroundTint">@color/white</item>
         <item name="iconTint">@color/black</item>
     </style>
+
+    <style name="SwitchMaterialStyle" parent="Widget.MaterialComponents.CompoundButton.Switch">
+        <item name="trackTint">@color/switch_background</item>
+        <item name="thumbTint">@color/switch_track</item>
+    </style>
 </resources>

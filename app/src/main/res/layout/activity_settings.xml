@@ -14,16 +14,15 @@
         app:titleTextColor="@color/caption_settings"/>
 
     <com.google.android.material.switchmaterial.SwitchMaterial
+        style="@style/SwitchMaterialStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:paddingHorizontal="@dimen/settings_padding_horizontal"
         android:paddingVertical="@dimen/settings_padding_vertical"
         android:text="@string/dark_theme"
-        app:thumbTintMode="screen"
         android:textColor="@color/text_settings"
-        android:textSize="@dimen/settings_text_size"
-        />
+        android:textSize="@dimen/settings_text_size" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/button_share"

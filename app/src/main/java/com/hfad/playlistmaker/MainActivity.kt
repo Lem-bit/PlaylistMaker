@@ -2,6 +2,7 @@ package com.hfad.playlistmaker
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
@@ -9,28 +10,28 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.hfad.playlistmaker.databinding.ActivityMainBinding
 import kotlin.reflect.KClass
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(LayoutInflater.from(this))
+        setContentView(binding.root)
+        
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        bindActivity(R.id.btn_search, SearchActivity::class)
-        bindActivity(R.id.btn_media, MediaActivity::class)
-        bindActivity(R.id.btn_settings, SettingsActivity::class)
-
-    }
-
-    fun bindActivity(id: Int, cls: KClass<out AppCompatActivity>) {
-        findViewById<Button>(id).setOnClickListener{ startActivity(Intent(this, cls.java)) }
+        binding.btnMedia.setOnClickListener{ startActivity(Intent(this, MediaActivity::class.java)) }
+        binding.btnSettings.setOnClickListener{ startActivity(Intent(this, SettingsActivity::class.java)) }
+        binding.btnSearch.setOnClickListener{ startActivity(Intent(this, SearchActivity::class.java)) }
     }
 
 }

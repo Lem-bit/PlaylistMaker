@@ -21,59 +21,24 @@
 
     <Button
         android:id="@+id/btn_search"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginHorizontal="@dimen/button_margin_offset"
+        style="@style/ButtonMain"
         android:layout_marginTop="@dimen/button_top_offset"
-        android:layout_weight="1"
-        android:backgroundTint="@color/white"
         android:text="@string/search"
-        android:textAllCaps="false"
-        android:textColor="@color/black"
-        android:textSize="@dimen/button_text_size"
-        app:cornerRadius="@dimen/button_corner_radius"
-        app:icon="@drawable/ic_search_button"
-        app:iconGravity="textStart"
-        app:iconPadding="@dimen/ico_padding"
-        app:iconSize="@dimen/ico_size"
-        app:iconTint="@color/black" />
+        app:icon="@drawable/ic_search_button" />
 
     <Button
         android:id="@+id/btn_media"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginHorizontal="@dimen/button_margin_offset"
+        style="@style/ButtonMain"
         android:layout_marginTop="@dimen/button_margin_offset"
-        android:layout_weight="1"
-        android:backgroundTint="@color/white"
         android:text="@string/media"
-        android:textAllCaps="false"
-        android:textColor="@color/black"
-        android:textSize="@dimen/button_text_size"
-        app:cornerRadius="@dimen/button_corner_radius"
-        app:icon="@drawable/ic_media_button"
-        app:iconGravity="textStart"
-        app:iconPadding="@dimen/ico_padding"
-        app:iconSize="@dimen/ico_size"
-        app:iconTint="@color/black" />
+        app:icon="@drawable/ic_media_button" />
+
 
     <Button
         android:id="@+id/btn_settings"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginHorizontal="@dimen/button_margin_offset"
+        style="@style/ButtonMain"
         android:layout_marginTop="@dimen/button_margin_offset"
         android:layout_marginBottom="@dimen/button_bottom_offset"
-        android:layout_weight="1"
-        android:backgroundTint="@color/white"
         android:text="@string/settings"
-        android:textAllCaps="false"
-        android:textColor="@color/black"
-        android:textSize="@dimen/button_text_size"
-        app:cornerRadius="@dimen/button_corner_radius"
-        app:icon="@drawable/ic_settings_button"
-        app:iconGravity="textStart"
-        app:iconPadding="@dimen/ico_padding"
-        app:iconSize="@dimen/ico_size"
-        app:iconTint="@color/black" />
+        app:icon="@drawable/ic_settings_button" />
 </LinearLayout>

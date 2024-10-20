@@ -18,4 +18,16 @@
     <dimen name="settings_text_size">16sp</dimen>
     <dimen name="settings_cell_height">61dp</dimen>
     <dimen name="settings_caption_text_size">22sp</dimen>
+
+
+    <dimen name="search_8dp">8dp</dimen>
+    <dimen name="search_14dp">14dp</dimen>
+    <dimen name="search_16dp">16dp</dimen>
+    <dimen name="search_24dp">24dp</dimen>
+    <dimen name="search_28dp">28dp</dimen>
+    <dimen name="search_text_size">16sp</dimen>
+
+    <dimen name="ic_clear_size">16dp</dimen>
+    <dimen name="search_icon_end_vertical_padding">8dp</dimen>
+    <dimen name="search_icon_end_size">24dp</dimen>
 </resources>

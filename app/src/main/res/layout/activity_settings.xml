@@ -5,82 +5,50 @@
     android:id="@+id/settings"
     android:orientation="vertical">
 
-    <Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/topAppBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:iconSize="@dimen/ico_size"
-        app:iconTint="@color/caption_settings"
-        app:navigationIcon="@drawable/ic_back_button" >
-
-        <Button
-            android:id="@+id/button_back"
-            android:layout_width="@dimen/ico_size_48"
-            android:layout_height="@dimen/ico_size_48"
-            android:text=""
-            app:icon="@drawable/ic_back_button"
-            android:backgroundTint="@color/btn_back_background"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="@dimen/start_offset_16"
-            app:iconGravity="textStart"
-            app:iconPadding="0dp"
-            app:iconSize="@dimen/ico_size"
-            app:iconTint="@color/caption_settings" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/settings_caption"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="@dimen/end_offset_12"
-            android:textSize="@dimen/settings_caption_text_size"
-            android:textColor="@color/caption_settings"
-            android:layout_gravity="center_vertical"
-            />
-    </Toolbar>
+        android:layout_height="?attr/actionBarSize"
+        app:title="@string/settings_caption"
+        app:navigationIcon="@drawable/ic_back_button"
+        app:titleTextColor="@color/caption_settings"/>
 
     <com.google.android.material.switchmaterial.SwitchMaterial
+        style="@style/SwitchMaterialStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:paddingHorizontal="@dimen/settings_padding_horizontal"
         android:paddingVertical="@dimen/settings_padding_vertical"
         android:text="@string/dark_theme"
-        app:thumbTintMode="screen"
         android:textColor="@color/text_settings"
-        android:textSize="@dimen/settings_text_size"
-        />
+        android:textSize="@dimen/settings_text_size" />
 
     <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/button_share"
+        style="@style/TextViewSettings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/share_application"
         android:drawableEnd="@drawable/ic_share_button"
-        android:textSize="@dimen/settings_text_size"
-        android:textColor="@color/text_settings"
-        android:paddingHorizontal="@dimen/settings_padding_horizontal"
-        android:paddingVertical="@dimen/settings_padding_vertical"
         />
 
     <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/button_support"
+        style="@style/TextViewSettings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/write_support"
         android:drawableEnd="@drawable/ic_support_button"
-        android:textSize="@dimen/settings_text_size"
-        android:textColor="@color/text_settings"
-        android:paddingHorizontal="@dimen/settings_padding_horizontal"
-        android:paddingVertical="@dimen/settings_padding_vertical"
         />
 
     <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/button_user"
+        style="@style/TextViewSettings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/user_document"
         android:drawableEnd="@drawable/ic_user_button"
-        android:textSize="@dimen/settings_text_size"
-        android:textColor="@color/text_settings"
-        android:paddingHorizontal="@dimen/settings_padding_horizontal"
-        android:paddingVertical="@dimen/settings_padding_vertical"
         />
 
 

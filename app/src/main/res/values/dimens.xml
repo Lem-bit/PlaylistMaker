@@ -30,4 +30,11 @@
     <dimen name="ic_clear_size">16dp</dimen>
     <dimen name="search_icon_end_vertical_padding">8dp</dimen>
     <dimen name="search_icon_end_size">24dp</dimen>
+
+    <dimen name="search_image_size">45dp</dimen>
+    <dimen name="search_image_round">2dp</dimen>
+    <dimen name="search_image_vert_offset">8dp</dimen>
+    <dimen name="search_track_name">16sp</dimen>
+    <dimen name="search_track_artist">11sp</dimen>
+    <dimen name="search_arrow_right_size">24dp</dimen>
 </resources>

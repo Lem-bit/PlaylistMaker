@@ -11,6 +11,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
+import com.hfad.playlistmaker.adapters.SearchTrackAdapter
+import com.hfad.playlistmaker.data.MockData
 import com.hfad.playlistmaker.databinding.ActivitySearchBinding
 
 class SearchActivity: AppCompatActivity() {
@@ -33,6 +37,11 @@ class SearchActivity: AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+
+        binding.apply {
+            recyclerView.layoutManager = LinearLayoutManager(this@SearchActivity)
+            recyclerView.adapter = SearchTrackAdapter(MockData.trackList)
         }
 
         binding.inputSearch.setText(searchData)

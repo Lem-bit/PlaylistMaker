@@ -29,4 +29,9 @@
         <item name="trackTint">@color/switch_background</item>
         <item name="thumbTint">@color/switch_track</item>
     </style>
+
+    <style name="ImageRoundedCorners" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/search_image_round</item>
+    </style>
 </resources>

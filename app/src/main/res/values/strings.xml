@@ -18,4 +18,6 @@
     <string name="title_search">Поиск</string>
     <string name="search_hint">Поиск</string>
     <string name="image_description">Clear</string>
+    <string name="image_track_row">Track image</string>
+    <string name="image_track_arrow_right">Play</string>
 </resources>

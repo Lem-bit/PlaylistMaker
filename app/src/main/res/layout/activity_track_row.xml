@@ -41,7 +41,7 @@
             tools:text="No Reply" />
 
         <TextView
-            android:id="@+id/TrackRow_lbArtistName"
+            android:id="@+id/TrackRow_lbTrackArtist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"

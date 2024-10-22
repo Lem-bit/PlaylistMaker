@@ -8,35 +8,20 @@ import com.hfad.playlistmaker.R
 import com.hfad.playlistmaker.data.Track
 import com.hfad.playlistmaker.databinding.ActivityTrackRowBinding
 
-class SearchTrackAdapter(private val trackList: List<Track>): RecyclerView.Adapter<SearchTrackAdapter.ViewHolder>() {
+class SearchTrackAdapter(private val trackList: List<Track>): RecyclerView.Adapter<SearchTrackHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchTrackHolder {
         val binding = ActivityTrackRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(binding)
+        return SearchTrackHolder(binding)
     }
 
     override fun getItemCount(): Int {
         return trackList.size
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: SearchTrackHolder, position: Int) {
         holder.bind(trackList[position])
     }
 
-    class ViewHolder(private val binding: ActivityTrackRowBinding): RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(track: Track) {
-
-            binding.TrackRowLbTrackName.text = String.format("%s • %s", track.artistName, track.trackTime)
-            binding.TrackRowLbArtistName.text = track.artistName
-
-            Glide.with(binding.TrackRowLayout.context)
-                .load(track.artworkUrl100)
-                .placeholder(R.drawable.ic_no_image)
-                .fitCenter()
-                .centerCrop()
-                .into(binding.imageView)
-
-        }
-    }
 }

@@ -10,14 +10,14 @@
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/ys_text_medium"
         android:gravity="top"
-        android:textSize="@dimen/caption_text_size"
         android:text="@string/title"
         android:textColor="@color/caption"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="12dp"
-    />
+        android:textSize="@dimen/caption_text_size" />
 
     <Button
         android:id="@+id/btn_search"

@@ -11,6 +11,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
+import com.hfad.playlistmaker.adapters.SearchTrackAdapter
+import com.hfad.playlistmaker.data.MockData
 import com.hfad.playlistmaker.databinding.ActivitySearchBinding
 
 class SearchActivity: AppCompatActivity() {
@@ -35,16 +39,6 @@ class SearchActivity: AppCompatActivity() {
             insets
         }
 
-        binding.inputSearch.setText(searchData)
-        binding.searchCancelButton.visibility = View.GONE
-
-        binding.topAppBar.setNavigationOnClickListener{ finish() }
-        binding.searchCancelButton.setOnClickListener{
-            binding.inputSearch.setText("")
-            val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager
-            inputMethodManager?.hideSoftInputFromWindow(binding.searchCancelButton.windowToken, 0)
-        }
-
         val textWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
@@ -59,8 +53,22 @@ class SearchActivity: AppCompatActivity() {
             }
         }
 
-        binding.inputSearch.addTextChangedListener(textWatcher)
+        with(binding) {
+            recyclerView.layoutManager = LinearLayoutManager(this@SearchActivity)
+            recyclerView.adapter = SearchTrackAdapter(MockData.trackList)
 
+            inputSearch.setText(searchData)
+            searchCancelButton.visibility = View.GONE
+
+            topAppBar.setNavigationOnClickListener{ finish() }
+            searchCancelButton.setOnClickListener{
+                binding.inputSearch.setText("")
+                val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager
+                inputMethodManager?.hideSoftInputFromWindow(binding.searchCancelButton.windowToken, 0)
+            }
+
+            inputSearch.addTextChangedListener(textWatcher)
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

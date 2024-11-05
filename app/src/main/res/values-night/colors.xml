@@ -18,6 +18,12 @@
     <color name="search_track_name">#FFFFFFFF</color>
     <color name="search_track_artist">#FFFFFFFF</color>
     <color name="search_arrow_right">#FFFFFFFF</color>
+    <color name="search_ic_background">@color/white</color>
+    <color name="search_button_reconnect">@color/white</color>
+    <color name="search_button_reconnect_text">@color/black</color>
+    <color name="search_ic_wifi">@color/blue</color>
+    <color name="search_ic_smile">#FFFCD452</color>
+    <color name="search_error">@color/search_title</color>
 </resources>
 
 

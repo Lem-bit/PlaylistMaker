@@ -15,6 +15,9 @@
     <color name="cancel_color">#FFAEAFB4</color>
     <color name="switch_background">#E6E8EB</color>
     <color name="switch_track">#AEAFB4</color>
+    <color name="search_track_name">#FF000000</color>
+    <color name="search_track_artist">#AEAFB4</color>
+    <color name="search_arrow_right">#FFAEAFB4</color>
 </resources>
 
 

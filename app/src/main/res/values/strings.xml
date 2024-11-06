@@ -20,7 +20,4 @@
     <string name="image_description">Clear</string>
     <string name="image_track_row">Track image</string>
     <string name="image_track_arrow_right">Play</string>
-    <string name="search_error_tracks_not_found">Ничего не нашлось</string>
-    <string name="search_error_internet_not_found">Проблемы со связью\n\nЗагрузка не удалась. Проверьте подключение к интернету</string>
-    <string name="search_button_reconnect">Обновить</string>
 </resources>

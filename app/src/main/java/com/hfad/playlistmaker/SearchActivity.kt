@@ -118,6 +118,7 @@ class SearchActivity: AppCompatActivity() {
                     if (searchResponse?.resultCount!! > 0) {
                         hideError()
                         trackList.addAll(searchResponse.results)
+                        binding.recyclerView.adapter?.notifyDataSetChanged()
                     } else {
                         showErrorTrackNotFound()
                     }
@@ -128,6 +129,7 @@ class SearchActivity: AppCompatActivity() {
 
             override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
                 showErrorInternetNotFound()
+                binding.recyclerView.adapter?.notifyDataSetChanged()
             }
         })
 

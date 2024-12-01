@@ -34,4 +34,15 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">@dimen/search_image_round</item>
     </style>
+
+    <style name="SearchButtonReconnect" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+        <item name="android:backgroundTint">@color/search_button_reconnect</item>
+        <item name="android:textColor">@color/search_button_reconnect_text</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:textSize">@dimen/search_14dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:textFontWeight">500</item>
+        <item name="cornerRadius">54dp</item>
+    </style>
 </resources>

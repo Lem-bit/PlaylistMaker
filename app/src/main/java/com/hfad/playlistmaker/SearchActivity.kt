@@ -14,6 +14,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hfad.playlistmaker.adapters.SearchTrackAdapter
+import com.hfad.playlistmaker.data.SearchHistory
 import com.hfad.playlistmaker.data.Track
 import com.hfad.playlistmaker.databinding.ActivitySearchBinding
 import com.hfad.playlistmaker.network.APIClient
@@ -31,6 +32,9 @@ class SearchActivity: AppCompatActivity() {
     private var searchData: String = ""
     private val trackList: MutableList<Track> = mutableListOf()
     private lateinit var binding: ActivitySearchBinding
+    private val sharedPreferences by lazy {
+        getSharedPreferences(AppConst.PREFS_NAME, MODE_PRIVATE)
+    }
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,6 +42,9 @@ class SearchActivity: AppCompatActivity() {
         binding = ActivitySearchBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
         enableEdgeToEdge()
+
+        SearchHistory.init(sharedPreferences)
+        SearchHistory.load()
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.search)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -61,7 +68,9 @@ class SearchActivity: AppCompatActivity() {
 
         with(binding) {
             recyclerView.layoutManager = LinearLayoutManager(this@SearchActivity)
-            recyclerView.adapter = SearchTrackAdapter(trackList)
+            recyclerView.adapter = SearchTrackAdapter(trackList) { track ->
+                SearchHistory.add(track)
+            }
 
             inputSearch.setText(searchData)
             searchCancelButton.visibility = View.GONE

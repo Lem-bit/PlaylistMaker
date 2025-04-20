@@ -6,15 +6,15 @@ import androidx.appcompat.app.AppCompatDelegate
 class App: Application() {
 
     var darkTheme = false
-    private val sharedPreferences by lazy {
-        getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
+    val sharedPreferences by lazy {
+        this.getSharedPreferences(AppConst.PREFS_NAME, MODE_PRIVATE)
     }
 
     override fun onCreate() {
         super.onCreate()
 
-        if (sharedPreferences.contains(PREFS_KEY_THEME))
-            darkTheme = sharedPreferences.getBoolean(PREFS_KEY_THEME, false)
+        if (sharedPreferences.contains(AppConst.KEY_THEME))
+            darkTheme = sharedPreferences.getBoolean(AppConst.KEY_THEME, false)
         switchTheme(darkTheme)
     }
 
@@ -27,15 +27,11 @@ class App: Application() {
                 AppCompatDelegate.MODE_NIGHT_NO
             }
         )
-        sharedPreferences.edit().putBoolean(PREFS_KEY_THEME, darkThemeEnabled).apply()
+        sharedPreferences.edit().putBoolean(AppConst.KEY_THEME, darkThemeEnabled).apply()
     }
 
     fun isDarkTheme(): Boolean {
         return darkTheme
     }
 
-    companion object {
-        const val PREFS_NAME = "playlist_prefs"
-        const val PREFS_KEY_THEME = "theme"
-    }
 }

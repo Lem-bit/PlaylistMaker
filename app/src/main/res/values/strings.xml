@@ -15,7 +15,6 @@
     <string name="email">desa-07@mail.ru</string>
     <string name="email_title">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
     <string name="email_message">Спасибо разработчикам и разработчицам за крутое приложение!</string>
-    <string name="title_search">Поиск</string>
     <string name="search_hint">Поиск</string>
     <string name="image_description">Clear</string>
     <string name="image_track_row">Track image</string>
@@ -23,4 +22,7 @@
     <string name="search_error_tracks_not_found">Ничего не нашлось</string>
     <string name="search_error_internet_not_found">Проблемы со связью\n\nЗагрузка не удалась. Проверьте подключение к интернету</string>
     <string name="search_button_reconnect">Обновить</string>
+    <string name="activitysearch_title">История поиска</string>
+    <string name="activitysearch_search_text">Поиск</string>
+    <string name="activitysearch_clear_history">Очистить историю</string>
 </resources>

@@ -44,4 +44,8 @@ object SearchHistory {
         save()
     }
 
+    fun clear() {
+        trackList.clear()
+    }
+
 }

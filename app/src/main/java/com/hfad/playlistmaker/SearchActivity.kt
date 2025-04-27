@@ -46,6 +46,8 @@ class SearchActivity: AppCompatActivity() {
         SearchHistory.init(sharedPreferences)
         SearchHistory.load()
 
+        trackList.addAll(SearchHistory.get())
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.search)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -67,21 +69,27 @@ class SearchActivity: AppCompatActivity() {
         }
 
         with(binding) {
+            topAppBar.title = resources.getString(R.string.activitysearch_title)
+
             recyclerView.layoutManager = LinearLayoutManager(this@SearchActivity)
             recyclerView.adapter = SearchTrackAdapter(trackList) { track ->
                 SearchHistory.add(track)
+                //onClickTrack()
             }
 
             inputSearch.setText(searchData)
             searchCancelButton.visibility = View.GONE
+
+            buttonClearHistory.setOnClickListener{
+                clearHistory()
+            }
 
             topAppBar.setNavigationOnClickListener{ finish() }
             searchCancelButton.setOnClickListener{
                 binding.inputSearch.setText("")
                 val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager
                 inputMethodManager?.hideSoftInputFromWindow(binding.searchCancelButton.windowToken, 0)
-                hideError()
-                trackList.clear()
+                onClickTrack()
                 binding.recyclerView.adapter?.notifyDataSetChanged()
             }
 
@@ -93,17 +101,28 @@ class SearchActivity: AppCompatActivity() {
             inputSearch.setOnEditorActionListener{_, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     searchTracks(inputSearch.text.toString())
+                    binding.buttonClearHistory.visibility = View.GONE
+                    topAppBar.title = resources.getString(R.string.activitysearch_search_text)
                     true
                 }
                 false
             }
 
+            updateStateTrackList()
             hideError()
         }
     }
 
+    private fun onClickTrack() {
+        hideError()
+        trackList.clear()
+        trackList.addAll(SearchHistory.get())
+        binding.topAppBar.title = resources.getString(R.string.activitysearch_title)
+        updateStateTrackList()
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putString(KEY_SEARCH_DATA, searchData + "AWDA")
+        outState.putString(KEY_SEARCH_DATA, searchData)
         super.onSaveInstanceState(outState)
     }
 
@@ -139,10 +158,24 @@ class SearchActivity: AppCompatActivity() {
             override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
                 showErrorInternetNotFound()
                 binding.recyclerView.adapter?.notifyDataSetChanged()
+                updateStateTrackList()
             }
         })
 
 
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun clearHistory() {
+        trackList.clear()
+        SearchHistory.clear()
+        SearchHistory.save()
+        binding.recyclerView.adapter?.notifyDataSetChanged()
+        updateStateTrackList()
+    }
+
+    private fun updateStateTrackList() {
+        binding.buttonClearHistory.visibility = if (trackList.isEmpty()) View.GONE else View.VISIBLE
     }
 
     private fun showErrorTrackNotFound() {

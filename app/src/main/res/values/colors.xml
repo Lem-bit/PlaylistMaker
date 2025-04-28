@@ -13,6 +13,7 @@
     <color name="search_text">#FF000000</color>
     <color name="search_field">#FFE6E8EB</color>
     <color name="cancel_color">#FFAEAFB4</color>
+    <color name="search_you_search">#FF000000</color>
     <color name="switch_background">#E6E8EB</color>
     <color name="switch_track">#AEAFB4</color>
     <color name="search_track_name">#FF000000</color>

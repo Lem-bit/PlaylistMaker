@@ -46,8 +46,6 @@ class SearchActivity: AppCompatActivity() {
         SearchHistory.init(sharedPreferences)
         SearchHistory.load()
 
-        trackList.addAll(SearchHistory.get())
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.search)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -61,6 +59,9 @@ class SearchActivity: AppCompatActivity() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 binding.searchCancelButton.visibility = if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
+                if (s.isNullOrEmpty()) {
+                    showHistoryList()
+                }
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -69,7 +70,7 @@ class SearchActivity: AppCompatActivity() {
         }
 
         with(binding) {
-            topAppBar.title = resources.getString(R.string.activitysearch_title)
+            topAppBar.title = resources.getString(R.string.activitysearch_search_text)
 
             recyclerView.layoutManager = LinearLayoutManager(this@SearchActivity)
             recyclerView.adapter = SearchTrackAdapter(trackList) { track ->
@@ -89,8 +90,7 @@ class SearchActivity: AppCompatActivity() {
                 binding.inputSearch.setText("")
                 val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager
                 inputMethodManager?.hideSoftInputFromWindow(binding.searchCancelButton.windowToken, 0)
-                onClickTrack()
-                binding.recyclerView.adapter?.notifyDataSetChanged()
+                showHistoryList()
             }
 
             buttonRefresh.setOnClickListener{
@@ -102,23 +102,26 @@ class SearchActivity: AppCompatActivity() {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     searchTracks(inputSearch.text.toString())
                     binding.buttonClearHistory.visibility = View.GONE
-                    topAppBar.title = resources.getString(R.string.activitysearch_search_text)
+                    binding.textYouSearch.visibility = View.GONE
+
                     true
                 }
                 false
             }
 
-            updateStateTrackList()
-            hideError()
         }
+
+        showHistoryList()
     }
 
-    private fun onClickTrack() {
+    @SuppressLint("NotifyDataSetChanged")
+    private fun showHistoryList() {
         hideError()
         trackList.clear()
         trackList.addAll(SearchHistory.get())
-        binding.topAppBar.title = resources.getString(R.string.activitysearch_title)
-        updateStateTrackList()
+        binding.buttonClearHistory.visibility = if (trackList.isEmpty()) View.GONE else View.VISIBLE
+        binding.textYouSearch.visibility = if (trackList.isEmpty()) View.GONE else View.VISIBLE
+        binding.recyclerView.adapter?.notifyDataSetChanged()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -158,7 +161,7 @@ class SearchActivity: AppCompatActivity() {
             override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
                 showErrorInternetNotFound()
                 binding.recyclerView.adapter?.notifyDataSetChanged()
-                updateStateTrackList()
+                binding.buttonClearHistory.visibility = if (trackList.isEmpty()) View.GONE else View.VISIBLE
             }
         })
 
@@ -167,15 +170,9 @@ class SearchActivity: AppCompatActivity() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun clearHistory() {
-        trackList.clear()
         SearchHistory.clear()
         SearchHistory.save()
-        binding.recyclerView.adapter?.notifyDataSetChanged()
-        updateStateTrackList()
-    }
-
-    private fun updateStateTrackList() {
-        binding.buttonClearHistory.visibility = if (trackList.isEmpty()) View.GONE else View.VISIBLE
+        showHistoryList()
     }
 
     private fun showErrorTrackNotFound() {

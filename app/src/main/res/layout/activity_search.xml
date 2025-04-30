@@ -2,16 +2,16 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/search"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/search">
+    android:layout_height="match_parent">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/topAppBar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:title="@string/title_search"
         app:navigationIcon="@drawable/ic_back_button"
+        app:title="@string/activitysearch_search_text"
         app:titleTextColor="@color/search_title"
         tools:ignore="MissingConstraints" />
 
@@ -31,23 +31,38 @@
         android:drawableStart="@drawable/ic_search_button"
         android:drawablePadding="@dimen/search_8dp"
         android:drawableTint="@color/gray"
-        android:paddingEnd="@dimen/search_8dp"
         android:fontFamily="@font/ys_display_regular"
         android:hint="@string/search_hint"
+        android:imeOptions="actionDone"
         android:inputType="textCapSentences"
         android:maxLines="1"
         android:paddingStart="@dimen/search_8dp"
+        android:paddingEnd="@dimen/search_8dp"
+        android:singleLine="true"
         android:textAllCaps="false"
         android:textColor="@color/search_text"
         android:textColorHint="@color/gray"
         android:textCursorDrawable="@drawable/ic_cursor"
         android:textSize="@dimen/search_text_size"
-        android:imeOptions="actionDone"
-        android:singleLine="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/topAppBar"
         tools:ignore="RtlSymmetry" />
+
+    <TextView
+        android:id="@+id/textYouSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="24dp"
+        android:fontFamily="@font/ys_display_medium"
+        android:text="@string/activitysearch_you_search"
+        android:textColor="@color/search_you_search"
+        android:textSize="19sp"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+        app:layout_constraintEnd_toEndOf="@+id/constraintLayout"
+        app:layout_constraintStart_toStartOf="@+id/constraintLayout"
+        app:layout_constraintTop_toBottomOf="@+id/inputSearch" />
 
     <ImageView
         android:id="@+id/search_cancel_button"
@@ -58,16 +73,6 @@
         app:layout_constraintEnd_toEndOf="@+id/inputSearch"
         app:layout_constraintTop_toTopOf="@+id/inputSearch"
         app:srcCompat="@drawable/ic_clear_search" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputSearch" />
 
     <ImageView
         android:id="@+id/image_state"
@@ -89,13 +94,60 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
         android:fontFamily="@font/ys_display_medium"
-        tools:text="Ничего не нашлось"
         android:textAlignment="center"
         android:textColor="@color/search_error"
         android:textSize="19sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_state" />
+        app:layout_constraintTop_toBottomOf="@+id/image_state"
+        tools:text="Ничего не нашлось" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textYouSearch">
+
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                </androidx.recyclerview.widget.RecyclerView>
+
+                <Button
+                    android:id="@+id/button_clear_history"
+                    style="@style/SearchButtonReconnect"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="8dp"
+                    android:text="@string/activitysearch_clear_history"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
         android:id="@+id/button_refresh"

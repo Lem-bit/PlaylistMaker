@@ -14,6 +14,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hfad.playlistmaker.adapters.SearchTrackAdapter
+import com.hfad.playlistmaker.data.SearchHistory
 import com.hfad.playlistmaker.data.Track
 import com.hfad.playlistmaker.databinding.ActivitySearchBinding
 import com.hfad.playlistmaker.network.APIClient
@@ -31,6 +32,9 @@ class SearchActivity: AppCompatActivity() {
     private var searchData: String = ""
     private val trackList: MutableList<Track> = mutableListOf()
     private lateinit var binding: ActivitySearchBinding
+    private val sharedPreferences by lazy {
+        getSharedPreferences(AppConst.PREFS_NAME, MODE_PRIVATE)
+    }
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,6 +42,9 @@ class SearchActivity: AppCompatActivity() {
         binding = ActivitySearchBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
         enableEdgeToEdge()
+
+        SearchHistory.init(sharedPreferences)
+        SearchHistory.load()
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.search)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -52,6 +59,9 @@ class SearchActivity: AppCompatActivity() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 binding.searchCancelButton.visibility = if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
+                if (s.isNullOrEmpty()) {
+                    showHistoryList()
+                }
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -60,20 +70,27 @@ class SearchActivity: AppCompatActivity() {
         }
 
         with(binding) {
+            topAppBar.title = resources.getString(R.string.activitysearch_search_text)
+
             recyclerView.layoutManager = LinearLayoutManager(this@SearchActivity)
-            recyclerView.adapter = SearchTrackAdapter(trackList)
+            recyclerView.adapter = SearchTrackAdapter(trackList) { track ->
+                SearchHistory.add(track)
+                //onClickTrack()
+            }
 
             inputSearch.setText(searchData)
             searchCancelButton.visibility = View.GONE
+
+            buttonClearHistory.setOnClickListener{
+                clearHistory()
+            }
 
             topAppBar.setNavigationOnClickListener{ finish() }
             searchCancelButton.setOnClickListener{
                 binding.inputSearch.setText("")
                 val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager
                 inputMethodManager?.hideSoftInputFromWindow(binding.searchCancelButton.windowToken, 0)
-                hideError()
-                trackList.clear()
-                binding.recyclerView.adapter?.notifyDataSetChanged()
+                showHistoryList()
             }
 
             buttonRefresh.setOnClickListener{
@@ -84,17 +101,31 @@ class SearchActivity: AppCompatActivity() {
             inputSearch.setOnEditorActionListener{_, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     searchTracks(inputSearch.text.toString())
+                    binding.buttonClearHistory.visibility = View.GONE
+                    binding.textYouSearch.visibility = View.GONE
+
                     true
                 }
                 false
             }
 
-            hideError()
         }
+
+        showHistoryList()
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun showHistoryList() {
+        hideError()
+        trackList.clear()
+        trackList.addAll(SearchHistory.get())
+        binding.buttonClearHistory.visibility = if (trackList.isEmpty()) View.GONE else View.VISIBLE
+        binding.textYouSearch.visibility = if (trackList.isEmpty()) View.GONE else View.VISIBLE
+        binding.recyclerView.adapter?.notifyDataSetChanged()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putString(KEY_SEARCH_DATA, searchData + "AWDA")
+        outState.putString(KEY_SEARCH_DATA, searchData)
         super.onSaveInstanceState(outState)
     }
 
@@ -130,10 +161,18 @@ class SearchActivity: AppCompatActivity() {
             override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
                 showErrorInternetNotFound()
                 binding.recyclerView.adapter?.notifyDataSetChanged()
+                binding.buttonClearHistory.visibility = if (trackList.isEmpty()) View.GONE else View.VISIBLE
             }
         })
 
 
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun clearHistory() {
+        SearchHistory.clear()
+        SearchHistory.save()
+        showHistoryList()
     }
 
     private fun showErrorTrackNotFound() {

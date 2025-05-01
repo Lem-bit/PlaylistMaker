@@ -25,6 +25,11 @@
     <color name="search_ic_wifi">@color/blue</color>
     <color name="search_ic_smile">#FFFCD452</color>
     <color name="search_error">@color/search_title</color>
+    <color name="player_background">#FFFFFF</color>
+    <color name="player_text_color">#1A1B22</color>
+    <color name="player_details_text_color">#AEAFB4</color>
+    <color name="icon">#AEAFB4</color>
+    <color name="settings_text">#000000</color>
 </resources>
 
 

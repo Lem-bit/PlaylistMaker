@@ -1,6 +1,7 @@
 package com.hfad.playlistmaker
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -13,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.gson.Gson
 import com.hfad.playlistmaker.adapters.SearchTrackAdapter
 import com.hfad.playlistmaker.data.SearchHistory
 import com.hfad.playlistmaker.data.Track
@@ -75,7 +77,7 @@ class SearchActivity: AppCompatActivity() {
             recyclerView.layoutManager = LinearLayoutManager(this@SearchActivity)
             recyclerView.adapter = SearchTrackAdapter(trackList) { track ->
                 SearchHistory.add(track)
-                //onClickTrack()
+                OnTrackClick(track)
             }
 
             inputSearch.setText(searchData)
@@ -103,8 +105,6 @@ class SearchActivity: AppCompatActivity() {
                     searchTracks(inputSearch.text.toString())
                     binding.buttonClearHistory.visibility = View.GONE
                     binding.textYouSearch.visibility = View.GONE
-
-                    true
                 }
                 false
             }
@@ -132,6 +132,14 @@ class SearchActivity: AppCompatActivity() {
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         searchData = savedInstanceState.getString(KEY_SEARCH_DATA, "")
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun OnTrackClick(track: Track) {
+        val intent = Intent(this, PlayerActivity::class.java).apply {
+            putExtra("track", Gson().toJson(track))
+        }
+        startActivity(intent)
     }
 
     @SuppressLint("NotifyDataSetChanged")

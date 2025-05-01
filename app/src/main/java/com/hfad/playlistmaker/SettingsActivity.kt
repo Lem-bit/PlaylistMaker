@@ -62,7 +62,7 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         binding.themeSwitcher.isChecked = (application as App).isDarkTheme()
-        binding.themeSwitcher.setOnCheckedChangeListener { buttonView, isChecked ->
+        binding.themeSwitcher.setOnCheckedChangeListener { _, isChecked ->
             (applicationContext as App).switchTheme(isChecked)
         }
 

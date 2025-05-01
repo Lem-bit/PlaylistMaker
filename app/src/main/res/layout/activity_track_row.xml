@@ -10,14 +10,14 @@
         android:id="@+id/imageView"
         android:layout_width="@dimen/search_image_size"
         android:layout_height="@dimen/search_image_size"
-        android:layout_marginStart="13dp"
         android:layout_marginVertical="@dimen/search_image_vert_offset"
+        android:layout_marginStart="13dp"
         android:contentDescription="@string/image_track_row"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_no_image"
-        app:shapeAppearanceOverlay="@style/ImageRoundedCorners"/>
+        app:shapeAppearanceOverlay="@style/ImageRoundedCorners"
+        app:srcCompat="@drawable/ic_placeholder" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"

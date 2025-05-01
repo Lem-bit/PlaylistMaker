@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 class SearchTrackHolder(private val binding: ActivityTrackRowBinding): RecyclerView.ViewHolder(binding.root) {
+
     private fun MillisToMins(duration: Long): String {
         val dateFormat = SimpleDateFormat("mm:ss", Locale.getDefault())
         return dateFormat.format(duration)
@@ -21,10 +22,11 @@ class SearchTrackHolder(private val binding: ActivityTrackRowBinding): RecyclerV
 
         Glide.with(binding.TrackRowLayout.context)
             .load(track.artworkUrl100)
-            .placeholder(R.drawable.ic_no_image)
+            .placeholder(R.drawable.ic_placeholder)
             .fitCenter()
             .centerCrop()
             .into(binding.imageView)
+
 
     }
 }

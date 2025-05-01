@@ -37,4 +37,19 @@
     <dimen name="search_track_name">16sp</dimen>
     <dimen name="search_track_artist">11sp</dimen>
     <dimen name="search_arrow_right_size">24dp</dimen>
+
+    <dimen name="player_padding_5">5dp</dimen>
+    <dimen name="player_padding_6">6dp</dimen>
+    <dimen name="player_padding_8">8dp</dimen>
+    <dimen name="player_padding_12">12dp</dimen>
+    <dimen name="player_padding_16">16dp</dimen>
+    <dimen name="player_padding_24">24dp</dimen>
+    <dimen name="player_album_cover">45dp</dimen>
+    <dimen name="player_toolbar_height">56dp</dimen>
+    <dimen name="player_track_item_height">60dp</dimen>
+    <dimen name="player_track_name_text">22sp</dimen>
+    <dimen name="player_artist_name_text">14sp</dimen>
+    <dimen name="player_details_text">13sp</dimen>
+    <dimen name="player_fab">51dp</dimen>
+    <dimen name="player_height_32">32dp</dimen>
 </resources>

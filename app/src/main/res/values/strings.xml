@@ -25,4 +25,15 @@
     <string name="activitysearch_you_search">Вы искали</string>
     <string name="activitysearch_search_text">Поиск</string>
     <string name="activitysearch_clear_history">Очистить историю</string>
+
+    <string name="album_cover_image">Изображение обложки альбома</string>
+    <string name="track_details">Информация о треке</string>
+    <string name="add_to_playlist">Добавить в плейлист</string>
+    <string name="add_to_favorites">Добавить в избранное</string>
+    <string name="duration">Длительность</string>
+    <string name="album">Альбом</string>
+    <string name="year">Год</string>
+    <string name="genre">Жанр</string>
+    <string name="country">Страна</string>
+    <string name="play">Воспроизвести</string>
 </resources>

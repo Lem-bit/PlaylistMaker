@@ -52,4 +52,6 @@
     <dimen name="player_details_text">13sp</dimen>
     <dimen name="player_fab">51dp</dimen>
     <dimen name="player_height_32">32dp</dimen>
+
+    <dimen name="pb_size">44dp</dimen>
 </resources>

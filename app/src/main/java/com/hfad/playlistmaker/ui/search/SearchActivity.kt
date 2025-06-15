@@ -1,7 +1,10 @@
 package com.hfad.playlistmaker.ui.search
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -20,13 +23,9 @@ import com.google.gson.Gson
 import com.hfad.playlistmaker.Creator
 import com.hfad.playlistmaker.R
 import com.hfad.playlistmaker.databinding.ActivitySearchBinding
+import com.hfad.playlistmaker.domain.api.TracksInteractor
 import com.hfad.playlistmaker.domain.models.Track
-import com.hfad.playlistmaker.network.APIClient
-import com.hfad.playlistmaker.network.SearchResponse
 import com.hfad.playlistmaker.ui.player.PlayerActivity
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class SearchActivity: AppCompatActivity() {
 
@@ -43,6 +42,7 @@ class SearchActivity: AppCompatActivity() {
     private val handler = Handler(Looper.getMainLooper())
     private val searchRunnable = Runnable { searchTracks(searchData) }
 
+    private val tracksInteractor = Creator.provideTracksInteractor()
     private val searchHistoryInteractor = Creator.provideSearchHistoryInteractor()
 
     @SuppressLint("NotifyDataSetChanged")
@@ -160,42 +160,44 @@ class SearchActivity: AppCompatActivity() {
         binding.progressBar.visibility = View.VISIBLE
         hideError()
 
-        APIClient.iTunesAPI.search(term).enqueue(object: Callback<SearchResponse> {
+        if (!isNetworkCheck()) {
+            showErrorInternetNotFound()
+            binding.recyclerView.adapter?.notifyDataSetChanged()
+            binding.buttonClearHistory.visibility = if (trackList.isEmpty()) View.GONE else View.VISIBLE
+            binding.progressBar.visibility = View.GONE
+            return
+        }
 
-            override fun onResponse(call: Call<SearchResponse>, response: Response<SearchResponse>) {
-
-                if (response.isSuccessful) {
-                    val searchResponse = response.body()
+        tracksInteractor.search(term, object: TracksInteractor.TracksConsumer {
+            override fun consume(foundTracks: List<Track>) {
+                handler.post {
                     binding.progressBar.visibility = View.GONE
 
-                    if (searchResponse?.resultCount!! > 0) {
+                    trackList.clear()
+                    if (foundTracks.isNotEmpty()) {
                         hideError()
-                        trackList.addAll(searchResponse.results)
-
+                        trackList.addAll(foundTracks)
                         binding.recyclerView.adapter?.notifyDataSetChanged()
                     } else {
                         showErrorTrackNotFound()
                     }
-
                 }
-
-            }
-
-            override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
-                showErrorInternetNotFound()
-                binding.recyclerView.adapter?.notifyDataSetChanged()
-                binding.buttonClearHistory.visibility = if (trackList.isEmpty()) View.GONE else View.VISIBLE
-                binding.progressBar.visibility = View.GONE
             }
         })
 
+    }
 
+    private fun isNetworkCheck(): Boolean {
+        val connectivityManager =
+            getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkCapabilities =
+            connectivityManager.activeNetwork?.let { connectivityManager.getNetworkCapabilities(it) }
+        return networkCapabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
     }
 
     @SuppressLint("NotifyDataSetChanged")
     private fun clearHistory() {
         searchHistoryInteractor.clear()
-        //searchHistoryInteractor.save()
         showHistoryList()
     }
 

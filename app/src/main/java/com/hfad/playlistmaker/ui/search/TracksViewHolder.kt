@@ -1,14 +1,14 @@
-package com.hfad.playlistmaker.adapters
+package com.hfad.playlistmaker.ui.search
 
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.hfad.playlistmaker.R
-import com.hfad.playlistmaker.data.Track
+import com.hfad.playlistmaker.domain.models.Track
 import com.hfad.playlistmaker.databinding.ActivityTrackRowBinding
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class SearchTrackHolder(private val binding: ActivityTrackRowBinding): RecyclerView.ViewHolder(binding.root) {
+class TracksViewHolder(private val binding: ActivityTrackRowBinding): RecyclerView.ViewHolder(binding.root) {
 
     private fun MillisToMins(duration: Long): String {
         val dateFormat = SimpleDateFormat("mm:ss", Locale.getDefault())

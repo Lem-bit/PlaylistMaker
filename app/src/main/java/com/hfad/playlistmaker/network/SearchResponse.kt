@@ -1,6 +1,6 @@
 package com.hfad.playlistmaker.network
 
-import com.hfad.playlistmaker.data.Track
+import com.hfad.playlistmaker.domain.models.Track
 
 data class SearchResponse(
     val resultCount: Int,

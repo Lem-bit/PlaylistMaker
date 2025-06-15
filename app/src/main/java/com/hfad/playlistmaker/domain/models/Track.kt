@@ -1,4 +1,4 @@
-package com.hfad.playlistmaker.data
+package com.hfad.playlistmaker.domain.models
 
 import com.google.gson.annotations.SerializedName
 

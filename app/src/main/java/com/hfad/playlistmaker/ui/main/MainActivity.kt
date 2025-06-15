@@ -1,17 +1,17 @@
-package com.hfad.playlistmaker
+package com.hfad.playlistmaker.ui.main
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
-import android.widget.Button
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.hfad.playlistmaker.R
+import com.hfad.playlistmaker.ui.settings.SettingsActivity
 import com.hfad.playlistmaker.databinding.ActivityMainBinding
-import kotlin.reflect.KClass
+import com.hfad.playlistmaker.ui.media.MediaActivity
+import com.hfad.playlistmaker.ui.search.SearchActivity
 
 class MainActivity : AppCompatActivity() {
 

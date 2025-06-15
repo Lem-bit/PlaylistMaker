@@ -1,28 +1,26 @@
-package com.hfad.playlistmaker.adapters
+package com.hfad.playlistmaker.ui.search
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.hfad.playlistmaker.R
-import com.hfad.playlistmaker.data.Track
+import com.hfad.playlistmaker.domain.models.Track
 import com.hfad.playlistmaker.databinding.ActivityTrackRowBinding
 
-class SearchTrackAdapter(
+class TrackAdapter(
     private val trackList: List<Track>,
     private val onTrackClick: (Track) -> Unit
-): RecyclerView.Adapter<SearchTrackHolder>() {
+): RecyclerView.Adapter<TracksViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchTrackHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TracksViewHolder {
         val binding = ActivityTrackRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return SearchTrackHolder(binding)
+        return TracksViewHolder(binding)
     }
 
     override fun getItemCount(): Int {
         return trackList.size
     }
 
-    override fun onBindViewHolder(holder: SearchTrackHolder, position: Int) {
+    override fun onBindViewHolder(holder: TracksViewHolder, position: Int) {
         val track = trackList[position]
         holder.bind(track)
         holder.itemView.setOnClickListener{

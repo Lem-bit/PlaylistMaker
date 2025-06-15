@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/topAppBar"
+        android:id="@+id/settingsToolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:title="@string/settings_caption"
@@ -15,7 +15,7 @@
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         style="@style/SwitchMaterialStyle"
-        android:id="@+id/themeSwitcher"
+        android:id="@+id/settingsTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
@@ -26,7 +26,7 @@
         android:textSize="@dimen/settings_text_size" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/button_share"
+        android:id="@+id/settingsShare"
         style="@style/TextViewSettings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
         />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/button_support"
+        android:id="@+id/settingsSupport"
         style="@style/TextViewSettings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
         />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/button_user"
+        android:id="@+id/settingsLicense"
         style="@style/TextViewSettings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

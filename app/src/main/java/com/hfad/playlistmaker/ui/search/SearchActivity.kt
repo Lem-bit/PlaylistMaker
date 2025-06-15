@@ -1,7 +1,10 @@
-package com.hfad.playlistmaker
+package com.hfad.playlistmaker.ui.search
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -17,15 +20,12 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
-import com.hfad.playlistmaker.adapters.SearchTrackAdapter
-import com.hfad.playlistmaker.data.SearchHistory
-import com.hfad.playlistmaker.data.Track
+import com.hfad.playlistmaker.Creator
+import com.hfad.playlistmaker.R
 import com.hfad.playlistmaker.databinding.ActivitySearchBinding
-import com.hfad.playlistmaker.network.APIClient
-import com.hfad.playlistmaker.network.SearchResponse
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.hfad.playlistmaker.domain.api.TracksInteractor
+import com.hfad.playlistmaker.domain.models.Track
+import com.hfad.playlistmaker.ui.player.PlayerActivity
 
 class SearchActivity: AppCompatActivity() {
 
@@ -38,12 +38,12 @@ class SearchActivity: AppCompatActivity() {
     private var searchData: String = ""
     private val trackList: MutableList<Track> = mutableListOf()
     private lateinit var binding: ActivitySearchBinding
-    private val sharedPreferences by lazy {
-        getSharedPreferences(AppConst.PREFS_NAME, MODE_PRIVATE)
-    }
     private var isClickAllowed = true
     private val handler = Handler(Looper.getMainLooper())
     private val searchRunnable = Runnable { searchTracks(searchData) }
+
+    private val tracksInteractor = Creator.provideTracksInteractor()
+    private val searchHistoryInteractor = Creator.provideSearchHistoryInteractor()
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,9 +51,6 @@ class SearchActivity: AppCompatActivity() {
         binding = ActivitySearchBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
         enableEdgeToEdge()
-
-        SearchHistory.init(sharedPreferences)
-        SearchHistory.load()
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.search)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -84,11 +81,11 @@ class SearchActivity: AppCompatActivity() {
         }
 
         with(binding) {
-            topAppBar.title = resources.getString(R.string.activitysearch_search_text)
+            searchToolbar.title = resources.getString(R.string.activitysearch_search_text)
 
             recyclerView.layoutManager = LinearLayoutManager(this@SearchActivity)
-            recyclerView.adapter = SearchTrackAdapter(trackList) { track ->
-                SearchHistory.add(track)
+            recyclerView.adapter = TrackAdapter(trackList) { track ->
+                searchHistoryInteractor.add(track)
                 onTrackClick(track)
             }
 
@@ -99,7 +96,7 @@ class SearchActivity: AppCompatActivity() {
                 clearHistory()
             }
 
-            topAppBar.setNavigationOnClickListener{ finish() }
+            searchToolbar.setNavigationOnClickListener{ finish() }
             searchCancelButton.setOnClickListener{
                 binding.inputSearch.setText("")
                 val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager
@@ -130,7 +127,7 @@ class SearchActivity: AppCompatActivity() {
     private fun showHistoryList() {
         hideError()
         trackList.clear()
-        trackList.addAll(SearchHistory.get())
+        trackList.addAll(searchHistoryInteractor.getList())
         binding.buttonClearHistory.visibility = if (trackList.isEmpty()) View.GONE else View.VISIBLE
         binding.textYouSearch.visibility = if (trackList.isEmpty()) View.GONE else View.VISIBLE
         binding.recyclerView.adapter?.notifyDataSetChanged()
@@ -163,42 +160,44 @@ class SearchActivity: AppCompatActivity() {
         binding.progressBar.visibility = View.VISIBLE
         hideError()
 
-        APIClient.iTunesAPI.search(term).enqueue(object: Callback<SearchResponse> {
+        if (!isNetworkCheck()) {
+            showErrorInternetNotFound()
+            binding.recyclerView.adapter?.notifyDataSetChanged()
+            binding.buttonClearHistory.visibility = if (trackList.isEmpty()) View.GONE else View.VISIBLE
+            binding.progressBar.visibility = View.GONE
+            return
+        }
 
-            override fun onResponse(call: Call<SearchResponse>, response: Response<SearchResponse>) {
-
-                if (response.isSuccessful) {
-                    val searchResponse = response.body()
+        tracksInteractor.search(term, object: TracksInteractor.TracksConsumer {
+            override fun consume(foundTracks: List<Track>) {
+                handler.post {
                     binding.progressBar.visibility = View.GONE
 
-                    if (searchResponse?.resultCount!! > 0) {
+                    trackList.clear()
+                    if (foundTracks.isNotEmpty()) {
                         hideError()
-                        trackList.addAll(searchResponse.results)
-
+                        trackList.addAll(foundTracks)
                         binding.recyclerView.adapter?.notifyDataSetChanged()
                     } else {
                         showErrorTrackNotFound()
                     }
-
                 }
-
-            }
-
-            override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
-                showErrorInternetNotFound()
-                binding.recyclerView.adapter?.notifyDataSetChanged()
-                binding.buttonClearHistory.visibility = if (trackList.isEmpty()) View.GONE else View.VISIBLE
-                binding.progressBar.visibility = View.GONE
             }
         })
 
+    }
 
+    private fun isNetworkCheck(): Boolean {
+        val connectivityManager =
+            getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkCapabilities =
+            connectivityManager.activeNetwork?.let { connectivityManager.getNetworkCapabilities(it) }
+        return networkCapabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
     }
 
     @SuppressLint("NotifyDataSetChanged")
     private fun clearHistory() {
-        SearchHistory.clear()
-        SearchHistory.save()
+        searchHistoryInteractor.clear()
         showHistoryList()
     }
 

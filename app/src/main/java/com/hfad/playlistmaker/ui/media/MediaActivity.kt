@@ -1,10 +1,11 @@
-package com.hfad.playlistmaker
+package com.hfad.playlistmaker.ui.media
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.hfad.playlistmaker.R
 
 class MediaActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
